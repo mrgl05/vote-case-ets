@@ -4,21 +4,9 @@ import logo from '../assets/hotel-image.jpeg'
 import ApproveModal from "../modals/approve-modal";
 
 function ListItem({ hotelName, hotelVote, _upVote, _downVote, hotelIndex, deleteHotel }) {
-    const [deleteButtonShow, setDeleteButtonShow] = useState(true);
+    const [deleteButtonShow, setDeleteButtonShow] = useState(false);
     const [deleteItemDetail, setDeleteItemDetail] = useState({});
-    return <Box position={'relative'}>
-        {deleteButtonShow &&
-            <Box w={'20px'} h={'20px'} rounded={'20px'}
-                bg={'red.400'}
-                color={'white'}
-                position={'absolute'}
-                top={'-5px'}
-                right={'-5px'}
-                onClick={() => {
-                    setDeleteItemDetail({ isOpen: true, name: hotelName, index: hotelIndex })
-                }}>
-                <Center fontSize={12} mt={'1px'}>X</Center>
-            </Box>}
+    return <>
         <HStack
             onMouseEnter={() => {
                 setDeleteButtonShow(true)
@@ -30,7 +18,8 @@ function ListItem({ hotelName, hotelVote, _upVote, _downVote, hotelIndex, delete
             p={1} mt={1}
             border={'1px solid lightgray'}
             rounded={5}
-            _hover={{ bg: 'lightgray', transition: '0.5s', cursor: 'pointer' }}>
+            _hover={{ bg: 'lightgray', transition: '0.5s', cursor: 'pointer' }}
+            position={'relative'}>
             <Image src={logo} w={120} h={120} />
             <VStack>
                 <Box w={'100%'} display={'flex'} justifyContent={'start'} flexDirection={'column'}>
@@ -44,6 +33,18 @@ function ListItem({ hotelName, hotelVote, _upVote, _downVote, hotelIndex, delete
                         Azalt</Button>
                 </Box>
             </VStack>
+            {deleteButtonShow &&
+                <Box w={'20px'} h={'20px'} rounded={'20px'}
+                    bg={'red.400'}
+                    color={'white'}
+                    position={'absolute'}
+                    top={'-5px'}
+                    right={'-5px'}
+                    onClick={() => {
+                        setDeleteItemDetail({ isOpen: true, name: hotelName, index: hotelIndex })
+                    }}>
+                    <Center fontSize={12} mt={'1px'}>X</Center>
+                </Box>}
         </HStack>
         <ApproveModal isOpen={deleteItemDetail.isOpen}
             hotelName={deleteItemDetail.name}
@@ -51,7 +52,7 @@ function ListItem({ hotelName, hotelVote, _upVote, _downVote, hotelIndex, delete
             close={(value) => setDeleteItemDetail({ ...deleteItemDetail, isOpen: value })}
             deleteHotel={(index) => deleteHotel(index)}
         />
-    </Box>
+    </>
 }
 
 export default ListItem;
